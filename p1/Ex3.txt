@@ -1,0 +1,5 @@
+I ussed a variation of the previsu command, but I tried to crank the quantization factor even past the recommended range (0-30), to a 60 or so, and even thougt there was a tiny difference on filesize (8.7 KiB vs 8.6 KiB); but not any perceptive change.
+
+I also added the format=gray flag for grayscale conversion, resulting in this command:
+
+ffmpeg -i lenna.png -vf format=gray -q:v 30 lenna_out_bw.jpeg
