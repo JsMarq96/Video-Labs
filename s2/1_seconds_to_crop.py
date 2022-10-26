@@ -5,12 +5,12 @@ import ffmpeg
 
 
 def crop_video(source, output_name, secs):
-    # Get the fps, via a ffmpeg probe
+    # get the fps, via a ffmpeg probe
     probe_stream = ffmpeg.probe(source)['streams']
     video_info = next(s for s in probe_stream if s['codec_type'] == 'video')
     fps = float(video_info['r_frame_rate'].split('/')[0])
 
-    # Edit the video
+    # edit the video
     stream = ffmpeg.input(source)
     stream = stream.trim(start_frame=0, end_frame=int(secs * fps))
     stream = stream.output(output_name)
