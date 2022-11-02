@@ -2,7 +2,13 @@
 
 import subprocess
 import ffmpeg
-import sys
+
+# Knoleadge base of the suppoerted codecs of each broadcasting protocol
+broadcasting_data = {'ATSC': {'video': ['mpeg2', 'h264'],
+                              'audio': ['ac3']},
+                     'DTMB': {'video': ['mpeg2', 'h264', 'avs', 'avs+'],
+                              'audio': ['ac3', 'aac', 'dra', 'mp3', 'mp2']}
+                     }
 
 
 class cVideoUtils:
@@ -40,7 +46,7 @@ class cVideoUtils:
 
         return {'video_codec': video_codec,
                 'video_res': video_resolution,
-                'audio_coded': audio_codec}
+                'audio_codec': audio_codec}
 
     '''
     Second exercise ================
@@ -87,6 +93,25 @@ class cVideoUtils:
                  .overwrite_output() \
                  .run()
 
+    '''
+    Forth exercise ===================
+    '''
+    def check_codec_compatiblity(self):
+        video_data = self.fetch_data_of_video()
+
+        usable_broadcasting = []
+
+        for standart in broadcasting_data:
+            compatible_codecs = broadcasting_data[standart]
+
+            # Check if audio and video's codecs are present on the supported list
+            # of the protocol
+            if video_data['video_codec'] in compatible_codecs['video']:
+                if video_data['audio_codec'] in compatible_codecs['audio']:
+                    usable_broadcasting.append(standart)
+
+        return usable_broadcasting
+
 
 if __name__ == '__main__':
     # First exercise
@@ -104,3 +129,6 @@ if __name__ == '__main__':
 
     # Third exercise
     cropped_video.resize_video('adjusted.mp4', 100, 200)
+
+    # Forth exercise
+    print('Broacasting compat.: ', video_utility.check_codec_compatiblity())
