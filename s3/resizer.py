@@ -56,12 +56,14 @@ if __name__ == '__main__':
               ('libx265', '.mp4'),
               ('libaom-av1', '.webm')]
 
-    #for codec, ext in codecs:
-    #    print('Processing codec ', codec)
-    #    for res in formats:
-    #        file_name = codec + '_' + str(res[0]) + 'x' + str(res[1])
-    #        resize_video('BBB.mp4', file_name + ext, res[0], res[1], codec)
-
+    # Part 1, export at diferent res
+    for codec, ext in codecs:
+        print('Processing codec ', codec)
+        for res in formats:
+            file_name = codec + '_' + str(res[0]) + 'x' + str(res[1])
+            resize_video('BBB.mp4', file_name + ext, res[0], res[1], codec)
+    
+    # Export each codec at 4 different bitrates
     for codec, ext in codecs:
         print('Processing codec ', codec)
         res = formats[0]
@@ -74,6 +76,7 @@ if __name__ == '__main__':
                            codec,
                            bits)
 
+    # Merge the videos of the same codec, and different bitrates
     for codec, ext in codecs:
         commands = 'ffmpeg'
         print('Processing codec ', codec)
